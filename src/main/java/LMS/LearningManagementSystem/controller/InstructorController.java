@@ -31,6 +31,8 @@ public class InstructorController {
     protected final QuestionRepository questionRepository;
     protected final QuizRepository quizRepository;
     protected final QuizLogRepository quizLogRepository;
+    private static final String STUDENT_NOT_FOUND = "Student not found";
+
     //private final QuizService quizService;
 
     @Autowired
@@ -159,7 +161,7 @@ public class InstructorController {
 
         // Get the student entity (assuming studentRepository is available)
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new RuntimeException(STUDENT_NOT_FOUND));
 
         // Count the number of submissions for this student for the given course
         long submissionCount = assignmentLogRepository.findAll().stream()
@@ -195,7 +197,7 @@ public class InstructorController {
     public int trackStudentAttendance(@RequestParam int studentid, @RequestParam int courseid) {
         // Fetch the student and course, throwing an exception if not found
         Student student = studentRepository.findById(studentid)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new RuntimeException(STUDENT_NOT_FOUND));
         Course course = courseRepository.findById(courseid)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
 
@@ -328,7 +330,7 @@ public class InstructorController {
     public Map<String, Integer> trackStudentQuiz(@RequestParam int studentid, @RequestParam int courseid) {
         // Fetch the student and course, throwing an exception if not found
         Student student = studentRepository.findById(studentid)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new RuntimeException(STUDENT_NOT_FOUND));
         Course course = courseRepository.findById(courseid)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
 
