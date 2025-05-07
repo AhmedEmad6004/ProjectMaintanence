@@ -20,6 +20,7 @@ public class StudentService {
     private final QuizLogRepository quizLogRepository;
     private final NotificationService notificationService;
     private final QuestionRepository questionRepository;
+    private static final String STUDENT_NOT_FOUND = "Student not found";
 
     @Autowired
     public StudentService(StudentRepository studentRepository, QuizRepository quizRepository, QuizLogRepository quizLogRepository, NotificationService notificationService, QuestionRepository questionRepository) {
@@ -35,7 +36,7 @@ public class StudentService {
     }
 
     public Quiz getQuiz(Integer quizId, Integer studentId) {
-        Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalArgumentException("Student not found"));
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND));
         Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new IllegalArgumentException("Quiz not found."));
 
         return quiz;
@@ -44,7 +45,7 @@ public class StudentService {
     public String takeQuiz(Integer studentId, Integer quizId, List<String> answers) {
         // Retrieve student and quiz
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new IllegalArgumentException("Student not found"));
+                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND));
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new IllegalArgumentException("Quiz not found"));
 
@@ -83,7 +84,7 @@ public class StudentService {
 
     public String getQuizWithRandomQuestions(Integer quizId, Integer studentId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new IllegalArgumentException("Student not found"));
+                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND));
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new IllegalArgumentException("Quiz not found"));
 
