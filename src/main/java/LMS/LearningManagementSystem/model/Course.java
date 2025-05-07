@@ -76,6 +76,7 @@ public class Course {
     }
 
     public void setMediaFiles(ArrayList<Object> objects) {
+        throw new UnsupportedOperationException("setMediaFiles is not supported. Modify the mediaFiles list directly.");
     }
 
     public void setId(Integer courseId) {
