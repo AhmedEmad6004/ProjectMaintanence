@@ -80,5 +80,7 @@ public class Course {
     }
 
     public void setId(Integer courseId) {
+        throw new UnsupportedOperationException("Setting course ID manually is not allowed. It is auto-generated.");
+
     }
 }
