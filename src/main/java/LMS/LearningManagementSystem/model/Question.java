@@ -93,5 +93,6 @@ public class Question {
     }
 
     public void setGrade(int i) {
+        throw new UnsupportedOperationException("Setting grade is not supported. The property does not exist.");
     }
 }
