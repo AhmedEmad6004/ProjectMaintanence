@@ -13,16 +13,19 @@ public class EmailConfig {
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("reekoahmed114@gmail.com"); // your Gmail address
-        mailSender.setPassword("yrfn lsth baka qwnx"); // your Gmail app password
+        // Use environment variables for credentials
+        mailSender.setUsername(System.getenv("EMAIL_USERNAME"));
+        mailSender.setPassword(System.getenv("EMAIL_PASSWORD"));
 
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.auth", "true");
         javaMailProperties.put("mail.smtp.starttls.enable", "true");
         javaMailProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
         mailSender.setJavaMailProperties(javaMailProperties);
 
         return mailSender;
