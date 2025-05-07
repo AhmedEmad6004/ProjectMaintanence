@@ -169,7 +169,7 @@ class AssignmentServiceTest {
         when(courseRepository.findById(1)).thenReturn(Optional.of(course));
 
         assignmentService.correctAssignmentLog(1, 95);
-
+a
         // Assert
         assertEquals(95, log.getGrade());
         verify(assignmentLogRepository, times(1)).save(log);
