@@ -38,36 +38,37 @@ public class ReportService {
 
     public byte[] generateExcelReport(int courseId) throws IOException {
         List<Student> students = studentRepository.findAll(); // Fetch students for the course
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Student Performance");
 
-        // Create header row
-        Row headerRow = sheet.createRow(0);
-        headerRow.createCell(0).setCellValue("Student ID");
-        headerRow.createCell(1).setCellValue("Name");
-        headerRow.createCell(2).setCellValue("Total Grades");
-        headerRow.createCell(3).setCellValue("Attendance");
+        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            Sheet sheet = workbook.createSheet("Student Performance");
 
-        int rowNum = 1;
-        for (Student student : students) {
-            Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(student.getId());
-            row.createCell(1).setCellValue(student.getName());
+            // Create header row
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Student ID");
+            headerRow.createCell(1).setCellValue("Name");
+            headerRow.createCell(2).setCellValue("Total Grades");
+            headerRow.createCell(3).setCellValue("Attendance");
 
-            // Calculate total grades and attendance
-            int totalGrades = calculateTotalGrades(student.getId(), courseId);
-            int attendanceCount = calculateAttendance(student.getId(), courseId);
+            int rowNum = 1;
+            for (Student student : students) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(student.getId());
+                row.createCell(1).setCellValue(student.getName());
 
-            row.createCell(2).setCellValue(totalGrades);
-            row.createCell(3).setCellValue(attendanceCount);
+                // Calculate total grades and attendance
+                int totalGrades = calculateTotalGrades(student.getId(), courseId);
+                int attendanceCount = calculateAttendance(student.getId(), courseId);
+
+                row.createCell(2).setCellValue(totalGrades);
+                row.createCell(3).setCellValue(attendanceCount);
+            }
+
+            workbook.write(outputStream);
+            return outputStream.toByteArray();
         }
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        workbook.write(outputStream);
-        workbook.close();
-        return outputStream.toByteArray();
+        
     }
-
+    
     public int calculateTotalGrades(int studentId, int courseId) {
         // Ensure course assignments are retrieved
         List<Assignment> assignments = assignmentRepository.findAllByCourseId(courseId);
