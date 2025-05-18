@@ -8,13 +8,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@SuperBuilder // Use @SuperBuilder for inherited fields
+@SuperBuilder
 @Table(name = "students")
 public class Student extends User {
     @ManyToMany
@@ -23,18 +24,21 @@ public class Student extends User {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
     )
-    private transient List<Course> courses;
+    private List<Course> courses;
     @Enumerated(EnumType.STRING)
     private Role role ;
 
     public Student(String name, String email, String password,Role role) {
         super(name, email, password);
-        this.role = Role.Student;
+        this.role = Role.STUDENT;
     }
 
-    public void addCourse(Course course){                    // يجب التعديل بعد إضافة كلاس الكورس
-        this.courses.add(course);
+    public void addCourse(Course course) {
+    if (this.courses == null) {
+        this.courses = new ArrayList<>();
     }
+    this.courses.add(course);
+}
     public void removeCourse(Course course){                    // يجب التعديل بعد إضافة كلاس الكورس
         this.courses.remove(course);
     }
@@ -44,36 +48,6 @@ public class Student extends User {
 
         return List.of();
     }
-    /*
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
-    }
-    */
+   
 
 }
