@@ -8,8 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "courses")
-public class Course {
+@Table(name = "course")
+public class Course  {
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Course {
     @Getter
     @Column(nullable = true) // Ensure course name cannot be null
     protected int courseDuration;
-    
+
 
     @Getter
     @Setter
