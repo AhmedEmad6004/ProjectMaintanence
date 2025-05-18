@@ -25,7 +25,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         switch (request.getRole().toString()) {
-            case "Student":
+            case "STUDENT":
                 var student = Student.builder()
                         .name(request.getName())
                         .email(request.getEmail())
@@ -36,7 +36,7 @@ public class AuthenticationService {
                 var studentToken = jwtServices.generateToken(student);
                 return AuthenticationResponse.builder().token(studentToken).build();
 
-            case "Admin":
+            case "ADMIN":
                 var admin = Admin.builder()
                         .name(request.getName())
                         .email(request.getEmail())
@@ -47,7 +47,7 @@ public class AuthenticationService {
                 var adminToken = jwtServices.generateToken(admin);
                 return AuthenticationResponse.builder().token(adminToken).build();
 
-            case "Instructor":
+            case "INSTRUCTOR":
                 var instructor = Instructor.builder()
                         .name(request.getName())
                         .email(request.getEmail())
