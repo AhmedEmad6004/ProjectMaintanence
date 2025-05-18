@@ -10,9 +10,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable() // Disable CSRF for simplicity
-                .authorizeHttpRequests()
-                .anyRequest().permitAll(); // Allow all requests without authentication
+        http.csrf(csrf -> csrf.disable()) // Disable CSRF using lambda syntax
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll()
+                );// Allow all requests without authentication
         return http.build();
     }
 }
