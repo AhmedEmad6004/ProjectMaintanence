@@ -72,7 +72,7 @@ public class InstructorController {
 
 
     @PostMapping(path = "/create-course")
-    public String createCourse(@RequestParam int instructorId, @RequestParam int courseId , @RequestParam String courseTitle , @RequestParam int courseDuration )
+    public String createCourse(@RequestParam int instructorId , @RequestParam String courseTitle , @RequestParam int courseDuration )
     {
         if (courseDuration <= 0) {
             return "Invalid course Duration";
@@ -144,8 +144,7 @@ public class InstructorController {
     // Call the service to get the assignment logs for the specified assignment ID
 
     @GetMapping(path = "/track-student-assignment")
-    public int trackAssignmentStudents(
-            @RequestParam int courseid, @RequestParam int studentId) {
+    public int trackAssignmentStudents(@RequestParam int courseid, @RequestParam int studentId) {
 
 
         // Retrieve assignments related to the given course ID
@@ -253,7 +252,7 @@ public class InstructorController {
     public ResponseEntity<List<Notification>> getAllNotifications(@RequestParam int instructorId) {
         //return notificationService.getAllNotifications(instructorId,Role.Instructor);
         try {
-            List<Notification> notifications = notificationService.getAllNotifications(instructorId, Role.Student);
+            List<Notification> notifications = notificationService.getAllNotifications(instructorId, Role.STUDENT);
             return ResponseEntity.ok(notifications);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
@@ -263,7 +262,7 @@ public class InstructorController {
     public ResponseEntity<List<Notification>> getUnReadNotifications(@RequestParam int instructorId) {
         //return notificationService.getUnReadNotifications(instructorId,Role.Instructor);
         try {
-            List<Notification> notifications = notificationService.getUnReadNotifications(instructorId, Role.Student);
+            List<Notification> notifications = notificationService.getUnReadNotifications(instructorId, Role.STUDENT);
             return ResponseEntity.ok(notifications);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
